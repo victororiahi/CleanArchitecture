@@ -51,6 +51,7 @@ namespace CleanArch.Application.Services
             catch (Exception ex)
             {
                 _logger.LogError($"ERROR: {ex.Message} STACKTRACE: {ex.StackTrace} ");
+               
                 return;
             }
         }
@@ -83,6 +84,30 @@ namespace CleanArch.Application.Services
                 Price = Item.Price
             };
             return ItemDTO;
+        }
+
+
+        public async Task UpdateItemAsync(Guid Id, ItemDTO itemDTO)
+        {
+            var existingItem = await _itemRepository.GetItemByIdAsync(Id);
+
+            if (existingItem == null)
+            {
+                throw new Exception("Item not found");
+            }
+
+            existingItem.Name = itemDTO.Name;
+            existingItem.ImageUrl = itemDTO.ImageUrl;
+            existingItem.Description = itemDTO.Description;
+            existingItem.Price = itemDTO.Price;
+                
+            await _itemRepository.UpdateItemAsync(existingItem);
+        }
+
+
+        public async Task DeleteItemAsync(Guid id)
+        {
+            await _itemRepository.DeleteItemAsync(id);
         }
     }
 }

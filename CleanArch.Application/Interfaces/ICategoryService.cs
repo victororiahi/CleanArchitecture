@@ -13,5 +13,7 @@ namespace CleanArch.Application.Interfaces
         public Task AddCategoryAsync(CategoryDTO categoryDTO);
 
         Task<CategoryDTO> GetCategoryByIdAsync(Guid Id);
+        Task UpdateCategoryAsync(Guid Id, CategoryDTO categoryDTO);
+        Task DeleteCategoryAsync(Guid Id);
     }
 }

@@ -15,6 +15,11 @@ namespace CleanArch.Application.Interfaces
 
         Task<ItemDTO> GetItemByIdAsync(Guid id);
 
+        Task UpdateItemAsync(Guid Id, ItemDTO itemDTO);
+
+        Task DeleteItemAsync(Guid id);
+
+
 
     }
 

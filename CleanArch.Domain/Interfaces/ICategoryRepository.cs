@@ -16,5 +16,9 @@ namespace CleanArch.Domain.Interfaces
         Task<Category> GetCategoryByIdAsync(Guid id);
 
         IQueryable<Category> GetAll();
+
+        Task UpdateCategoryAsync(Category category);
+
+        Task DeleteCategoryAsync(Guid id);
     }
 }

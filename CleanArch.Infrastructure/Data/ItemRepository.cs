@@ -36,5 +36,22 @@ namespace CleanArch.Infrastructure.Data
         {
             return await _context.Items.FindAsync(id);
         }
+
+        public async Task UpdateItemAsync(Item item)
+        {
+            _context.Items.Update(item);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteItemAsync(Guid id)
+        {
+            var item = await _context.Items.FindAsync(id);
+            if (item != null)
+            {
+                _context.Items.Remove(item);
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }

@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 namespace CleanArch.Application.Services
 {
     public class CategoryService : ICategoryService
-    {       
+    {
         private readonly ICategoryRepository _categoryRepository;
 
         public CategoryService(ICategoryRepository categoryRepository)
         {
-                _categoryRepository = categoryRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task AddCategoryAsync(CategoryDTO categoryDTO)
@@ -35,16 +35,18 @@ namespace CleanArch.Application.Services
         public async Task<IEnumerable<CategoryDTO>> GetAllCategories() //Mapping
         {
             //var A = await _categoryRepository.GetAllCategoriesAsync();//.ToListAsync();//.Where(x => x.Name.StartsWith("A")).ToList();
-             var Categories = await _categoryRepository.GetAllCategoriesAsync();
+            var Categories = await _categoryRepository.GetAllCategoriesAsync();
             var CategoriesDto = Categories
                 .Select(x => new CategoryDTO
                 {
-                    Name = x.Name, ImageUrl = x.ImageUrl
+                    Name = x.Name,
+                    ImageUrl = x.ImageUrl
                 }).ToList();
             return CategoriesDto;
         }
 
-       public async Task<CategoryDTO> GetCategoryByIdAsync(Guid Id)
+
+        public async Task<CategoryDTO> GetCategoryByIdAsync(Guid Id)
         {
             var Category = await _categoryRepository.GetCategoryByIdAsync(Id);
             var CategoryDto = new CategoryDTO
@@ -54,5 +56,27 @@ namespace CleanArch.Application.Services
             };
             return CategoryDto;
         }
+
+
+        public async Task UpdateCategoryAsync(Guid Id, CategoryDTO categoryDTO)
+        {
+            var existingCategory = await _categoryRepository.GetCategoryByIdAsync(Id);
+            if(existingCategory == null)
+            {
+                throw new Exception("Category not found");
+            }
+
+            existingCategory.Name = categoryDTO.Name;
+            existingCategory.ImageUrl = categoryDTO.ImageUrl;
+
+            await _categoryRepository.UpdateCategoryAsync(existingCategory);
+        }
+
+
+        public async Task DeleteCategoryAsync(Guid Id)
+        {
+            await _categoryRepository.DeleteCategoryAsync(Id);
+        }
+
     }
 }

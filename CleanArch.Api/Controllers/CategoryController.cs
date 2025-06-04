@@ -37,8 +37,25 @@ namespace CleanArch.Api.Controllers
         [HttpGet("Get-category-by-Id/{id}")]
         public async Task<IActionResult> GetCategoryById(Guid id)
         {
-         var Categorydto = await _categoryService.GetCategoryByIdAsync(id);
+            var Categorydto = await _categoryService.GetCategoryByIdAsync(id);
             return Ok(Categorydto);
         }
+
+
+        [HttpPut("Update-category/{Id}")]
+        public async Task<IActionResult> UpdateCategoryAsync(Guid Id, [FromBody] CategoryDTO categoryDTO)
+        {
+            await _categoryService.UpdateCategoryAsync(Id, categoryDTO);
+            return Ok("The category was updated successfully!");
+        }
+
+
+        [HttpDelete("Delete-category/{id}")]
+        public async Task<IActionResult> DeleteCategoryAsync(Guid id)
+        {
+            await _categoryService.DeleteCategoryAsync(id);
+            return Ok("The category was deleted successfully!");
+        }
+
     }
 }
