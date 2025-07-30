@@ -67,6 +67,16 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Authentication:JwtBearer:SecretKey"]!))
     };
 });
+//Add CORS Service and allow any origin
+builder.Services.AddCors(x =>
+{
+    x.AddPolicy("AllowAll", p =>
+    {
+        p.AllowAnyOrigin()
+         .AllowAnyMethod()
+         .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -76,6 +86,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowAll");
+
 app.UseSerilogRequestLogging();
 
 app.UseAuthorization();
